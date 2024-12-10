@@ -55,6 +55,27 @@ public class Vigenere{
 
     }
 
+    // Method to perform Vigenère encryption using Ci = (Pi + Ki) mod 26
+    private static String VigenereEncrypt(String chainText, String key) {
+        StringBuilder encrypted = new StringBuilder(); // StringBuilder to build the encrypted string
+        int keyLength = key.length();
+
+        for (int i = 0; i < chainText.length(); i++) {
+            // Find the positions of plaintext and key characters
+            int plainCharIndex = chainText.charAt(i) - 'a'; // Alphabetic index for the plaintext character
+            int keyCharIndex = key.charAt(i % keyLength) - 'a'; // Alphabetic index for the key character
+
+            // Apply the Vigenère formula Ci = (Pi + Ki) mod 26
+            int encryptedCharIndex = (plainCharIndex + keyCharIndex) % 26;
+
+            // Convert the index back to a character
+            char encryptedChar = (char) ('a' + encryptedCharIndex);
+            encrypted.append(encryptedChar); // Append the encrypted character to the result
+        }
+
+        return encrypted.toString(); // Return the encrypted string
+    }
+
     // Main method - entry point of the program
     public static void main(String[] args){
 
@@ -63,10 +84,15 @@ public class Vigenere{
         // Calling the entryKey() method to specify the key
         String key = EntryKey();
 
+        // Encrypting the plaintext using the Vigenère cipher
+        String encrypted = VigenereEncrypt(chain, key);
+
         // Displaying the input string back to the user
         System.out.println("The password to encrypt : " + chain);
         // Displaying the key to the user
         System.out.println("The key to be able to encrypt : " + key);
+        // Displaying the encrypted password
+        System.out.println("The encrypted password: " + encrypted);
 
     }
 
