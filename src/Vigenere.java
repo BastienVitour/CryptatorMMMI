@@ -76,6 +76,27 @@ public class Vigenere{
         return encrypted.toString(); // Return the encrypted string
     }
 
+    // Method to perform Vigenère decryption using Pi = (Ci - Ki + 26) mod 26
+    private static String VigenereDecrypt(String encryptedText, String key) {
+        StringBuilder decrypted = new StringBuilder(); // StringBuilder to build the decrypted string
+        int keyLength = key.length();
+
+        for (int i = 0; i < encryptedText.length(); i++) {
+            // Find the positions of ciphertext and key characters
+            int encryptedCharIndex = encryptedText.charAt(i) - 'a'; // Alphabetic index for the ciphertext character
+            int keyCharIndex = key.charAt(i % keyLength) - 'a'; // Alphabetic index for the key character
+
+            // Apply the Vigenère formula Pi = (Ci - Ki + 26) mod 26
+            int decryptedCharIndex = (encryptedCharIndex - keyCharIndex + 26) % 26;
+
+            // Convert the index back to a character
+            char decryptedChar = (char) ('a' + decryptedCharIndex);
+            decrypted.append(decryptedChar); // Append the decrypted character to the result
+        }
+
+        return decrypted.toString(); // Return the decrypted string
+    }
+
     // Main method - entry point of the program
     public static void main(String[] args){
 
@@ -86,6 +107,8 @@ public class Vigenere{
 
         // Encrypting the plaintext using the Vigenère cipher
         String encrypted = VigenereEncrypt(chain, key);
+        // Decrypting the ciphertext to verify correctness
+        String decrypted = VigenereDecrypt(encrypted, key);
 
         // Displaying the input string back to the user
         System.out.println("The password to encrypt : " + chain);
@@ -93,6 +116,8 @@ public class Vigenere{
         System.out.println("The key to be able to encrypt : " + key);
         // Displaying the encrypted password
         System.out.println("The encrypted password: " + encrypted);
+        // Displaying the decrypted password
+        System.out.println("The decrypted password: " + decrypted);
 
     }
 
