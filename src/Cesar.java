@@ -9,23 +9,30 @@ public class Cesar {
         boolean lower = false;
         boolean upper = false;
 
+        /* we Check each letter in the text */
         for (String character : inputString.split("")) {
+            /* if one letter is on lower case we set lower to true */
             if (character.matches("[a-z]+")) {
                 lower = true;
             }
+            /* if one letter is on upper case we set upper to true */
             else if (character.matches("[A-Z]+")) {
                 upper = true;
             }
+            /* if it's not a letter then the text is not valid */
             else {
                 return false;
             }
         }
+        /* if lower is true but upper is false then the text is valid */
         if (lower && !upper) {
             return true;
         }
+        /* if upper is true but lower is false then the text is valid */
         else if (upper && !lower) {
             return true;
         }
+        /* if lower and upper are true then the text is not valid */
         else if (lower && upper){
             return false;
         }
