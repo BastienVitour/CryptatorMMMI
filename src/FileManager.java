@@ -1,7 +1,6 @@
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileManager {
 
@@ -35,6 +34,26 @@ public class FileManager {
         } catch (IOException e) {
             System.out.println(e);
             e.printStackTrace();
+        }
+
+    }
+
+    public static List<String> ReadFile() {
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("./Passwords/password.txt"));
+            String line = br.readLine();
+            List<String> lines = new ArrayList<>();
+
+            while(line != null) {
+                lines.add(line);
+                line = br.readLine();
+            }
+
+            return lines;
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
     }
