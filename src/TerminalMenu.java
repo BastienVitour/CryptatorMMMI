@@ -36,6 +36,7 @@ public class TerminalMenu {
                     RetrievePassword(scanner);
                     break;
                 case 3:
+                    HashPassword(scanner);
                     break;
                 case 4:
                     break;
@@ -62,6 +63,7 @@ public class TerminalMenu {
         System.out.println("4 - Enigma");
         System.out.println("5 - RC4");
         System.out.println("6 - Encryption chain");
+        System.out.println("0 - Go to main menu");
         System.out.print("\nEnter the number of the method : ");
 
         int method = 0; // Variable to store the chosen encryption method
@@ -127,6 +129,41 @@ public class TerminalMenu {
 
     }
 
+    // Method to handle adding a password
+    private static void HashPassword(Scanner scanner) {
+        System.out.print("\nFor which site ? : ");
+        String usage = scanner.nextLine();
+        System.out.println("\n=== Choose a hash method ===");
+        System.out.println("1 - MD5");
+        System.out.println("2 - SHA-256");
+        System.out.println("0 - Go to main menu");
+        System.out.print("\nEnter the number of the method : ");
+
+        int method = 0; // Variable to store the chosen encryption method
+        try {
+            method = Integer.parseInt(scanner.nextLine()); // Parse the chosen method as an integer
+        } catch (NumberFormatException e) {
+            System.out.println("\nPlease enter a valid number.");
+            return;
+        }
+
+        // Handle different hash methods based on the user's choice
+        String password = getInput(scanner, "Enter the password to hash: ");
+        switch (method) {
+            case 1:
+                String hashedMD5 = Hash.hashMD5(password); // Call the MD5 hashing method
+                System.out.println("Hashed password (MD5): " + hashedMD5);
+                break;
+            case 2:
+                String hashedSHA256 = Hash.hashSHA256(password); // Call the SHA-256 hashing method
+                System.out.println("Hashed password (SHA-256): " + hashedSHA256);
+                break;
+            default:
+                System.out.println("Invalid method. Please choose 1 or 2.");
+
+        }
+    }
+  
     // Retrieve the password of the user based on the name of the website(or something else) where it is used
     private static void RetrievePassword(Scanner scanner) {
         System.out.print("\nWhich password do you want to see ? : ");
