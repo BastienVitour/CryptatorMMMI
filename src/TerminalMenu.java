@@ -34,6 +34,7 @@ public class TerminalMenu {
                 case 2:
                     break;
                 case 3:
+                    HashPassword(scanner);
                     break;
                 case 4:
                     break;
@@ -108,6 +109,35 @@ public class TerminalMenu {
 
         }
 
+    }
+
+    // Method to handle adding a password
+    private static void HashPassword(Scanner scanner) {
+        System.out.print("\nFor which site ? : ");
+        String usage = scanner.nextLine();
+        System.out.println("\n=== Choose a hash method ===");
+        System.out.println("1 - MD5");
+        System.out.println("2 - SHA-256");
+        System.out.print("\nEnter the number of the method : ");
+
+        int method = 0; // Variable to store the chosen encryption method
+        try {
+            method = Integer.parseInt(scanner.nextLine()); // Parse the chosen method as an integer
+        } catch (NumberFormatException e) {
+            System.out.println("\nPlease enter a valid number.");
+            return;
+        }
+
+        // Handle different encryption methods based on the user's choice
+        switch(method) {
+            case 1:
+                String password = getInput(scanner, "Enter the password to hash: ");
+                String hashedPassword = HashMD5.hash(password); // Call the MD5 hashing method
+                System.out.println("Hashed password (MD5): " + hashedPassword);
+                break;
+            case 2:
+
+        }
     }
 
     // Generic method to get a String input
