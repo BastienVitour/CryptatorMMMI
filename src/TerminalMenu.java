@@ -93,7 +93,10 @@ public class TerminalMenu {
                 System.out.println(bbb);
             }
         } else if(method == 4){
-
+            // Encrypt the user's input with Enigma method
+            String enigma = Enigma.Encrypt("hello");
+            System.out.println(enigma);
+            System.out.println(Enigma.Decrypt(enigma));
         } else if(method == 5){
 
         } else if(method == 6){
