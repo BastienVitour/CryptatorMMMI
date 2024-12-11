@@ -14,6 +14,12 @@ public class Main {
             System.out.println(aaa);
             String bbb = Polybius.Decrypt(aaa);
             System.out.println(bbb);
+            //FileManager.CreateFile();
+            String usage = "gmail";
+            String method = "Polybius";
+            String pwd = PasswordManager.RetrievePassword("gmail");
+            System.out.println(pwd);
+            //PasswordManager.RegisterPassword(usage, aaa, method, "");
         }
 
     }
