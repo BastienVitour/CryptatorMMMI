@@ -4,10 +4,13 @@ import java.util.List;
 
 public class FileManager {
 
-    public static void CreateFile() {
+    /**
+     * Creates a file at the specified path
+     */
+    public static void CreateFile(String path) {
 
         try {
-            File file = new File("./Passwords/password.txt");
+            File file = new File(path);
 
             if(file.createNewFile()) {
                 System.out.println("File created");
@@ -23,10 +26,15 @@ public class FileManager {
 
     }
 
-    public static void AddTextToFile(String text) {
+    /**
+     * Adds text to the specified file
+     * @param path The path of the file to edit
+     * @param text The text to add to the file
+     */
+    public static void AddTextToFile(String path, String text) {
 
         try {
-            FileWriter fw = new FileWriter("./Passwords/password.txt", true);
+            FileWriter fw = new FileWriter(path, true);
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write(text);
             bw.newLine();
@@ -38,10 +46,15 @@ public class FileManager {
 
     }
 
-    public static List<String> ReadFile() {
+    /**
+     * Reads data from a file
+     * @param path The path to the file
+     * @return An array of the lines of the file
+     */
+    public static List<String> ReadFile(String path) {
 
         try {
-            BufferedReader br = new BufferedReader(new FileReader("./Passwords/password.txt"));
+            BufferedReader br = new BufferedReader(new FileReader(path));
             String line = br.readLine();
             List<String> lines = new ArrayList<>();
 

@@ -20,7 +20,7 @@ public class EnigmaRotor {
      */
     public char Encrypt(char letter) {
 
-        int index = (letter - 96 + this.position) % 26;
+        int index = (letter - 97 + this.position) % 26;
         return alphabet.charAt(index);
 
     }
@@ -33,7 +33,7 @@ public class EnigmaRotor {
     public char ReverseEncrypt(char letter) {
 
         int index = alphabet.indexOf(letter);
-        return (char) (96 + (index - this.position + 26) % 26);
+        return (char) (97 + (index - this.position + 26) % 26);
 
     }
 
