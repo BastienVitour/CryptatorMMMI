@@ -76,18 +76,16 @@ public class TerminalMenu {
             String input = "hello";
             int rot = 3;
             if(!Cesar.IsValidString(input)){
-                System.out.println("Please enter a valid password. (only lowercase letters)");
+                System.out.println("Please enter a valid password.");
             } else {
-                String aaa = Cesar.Encrypt(input, rot);
-                System.out.println(aaa);
+                Cesar.Encrypt(input, rot);
             }
 
         } else if(method == 2){
             // Encrypt the user's input with Vigenere method
             String plaintext = Vigenere.EntryChain();
             String key = Vigenere.EntryKey();
-            String encrypted = Vigenere.VigenereEncrypt(plaintext, key);
-            System.out.println("\nThe encrypted password for site '" + usage + "' is: " + encrypted);
+            Vigenere.VigenereEncrypt(plaintext, key);
 
         } else if(method == 3){
             // Encrypt the user's input with Polybius method
@@ -95,16 +93,11 @@ public class TerminalMenu {
             if(!Polybius.IsValidString(input)) {
                 System.out.println("Please enter a valid password (only lowercase letters)");
             } else {
-                String aaa = Polybius.Encrypt(input);
-                System.out.println(aaa);
-                String bbb = Polybius.Decrypt(aaa);
-                System.out.println(bbb);
+                Polybius.Encrypt(input);
             }
         } else if(method == 4){
             // Encrypt the user's input with Enigma method
-            String enigma = Enigma.Encrypt("hello");
-            System.out.println(enigma);
-            System.out.println(Enigma.Decrypt(enigma));
+            Enigma.Encrypt("hello");
         } else if(method == 5){
 
         } else if(method == 6){
