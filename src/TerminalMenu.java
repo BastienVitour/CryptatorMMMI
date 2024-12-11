@@ -61,6 +61,7 @@ public class TerminalMenu {
         System.out.println("4 - Enigma");
         System.out.println("5 - RC4");
         System.out.println("6 - Encryption chain");
+        System.out.println("0 - Go to main menu");
         System.out.print("\nEnter the number of the method : ");
 
         int method = 0; // Variable to store the chosen encryption method
@@ -118,6 +119,7 @@ public class TerminalMenu {
         System.out.println("\n=== Choose a hash method ===");
         System.out.println("1 - MD5");
         System.out.println("2 - SHA-256");
+        System.out.println("0 - Go to main menu");
         System.out.print("\nEnter the number of the method : ");
 
         int method = 0; // Variable to store the chosen encryption method
@@ -128,15 +130,19 @@ public class TerminalMenu {
             return;
         }
 
-        // Handle different encryption methods based on the user's choice
-        switch(method) {
+        // Handle different hash methods based on the user's choice
+        String password = getInput(scanner, "Enter the password to hash: ");
+        switch (method) {
             case 1:
-                String password = getInput(scanner, "Enter the password to hash: ");
-                String hashedPassword = HashMD5.hash(password); // Call the MD5 hashing method
-                System.out.println("Hashed password (MD5): " + hashedPassword);
+                String hashedMD5 = Hash.hashMD5(password); // Call the MD5 hashing method
+                System.out.println("Hashed password (MD5): " + hashedMD5);
                 break;
             case 2:
-
+                String hashedSHA256 = Hash.hashSHA256(password); // Call the SHA-256 hashing method
+                System.out.println("Hashed password (SHA-256): " + hashedSHA256);
+                break;
+            default:
+                System.out.println("Invalid method. Please choose 1 or 2.");
         }
     }
 
