@@ -3,6 +3,7 @@ public class Main {
 
         String enigma = Enigma.Encrypt("hello");
         System.out.println(enigma);
+        System.out.println(Enigma.Decrypt(enigma));
 
         String input = "not matching";
         if(!Polybius.IsValidString(input)) {
