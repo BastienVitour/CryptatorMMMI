@@ -27,7 +27,7 @@ public class TerminalMenu {
 
             switch (choice) {
                 case 1:
-                    addPassword(scanner);
+                    AddPassword(scanner);
                     break;
                 case 2:
                     break;
@@ -48,7 +48,7 @@ public class TerminalMenu {
     }
 
     // Add password method
-    private static void addPassword(Scanner scanner) {
+    private static void AddPassword(Scanner scanner) {
         System.out.print("\nFor which site ? : ");
         String usage = scanner.nextLine();
         System.out.println("\n=== Choose a crypt method ===");
@@ -78,7 +78,16 @@ public class TerminalMenu {
             System.out.println("\nThe encrypted password for site '" + usage + "' is: " + encrypted);
 
         } else if(method == 3){
-            Main.main(new String[0]);
+            String input = "notmatching";
+            if(!Polybius.IsValidString(input)) {
+                System.out.println("Veuillez entrer un message valide (uniquement des lettres minuscules)");
+            }
+            else {
+                String aaa = Polybius.Encrypt(input);
+                System.out.println(aaa);
+                String bbb = Polybius.Decrypt(aaa);
+                System.out.println(bbb);
+            }
         } else if(method == 4){
 
         } else if(method == 5){
