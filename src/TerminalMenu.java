@@ -72,6 +72,15 @@ public class TerminalMenu {
 
         // Handle different encryption methods based on the user's choice
         if(method == 1) {
+            // Encrypt the user's input with Cesar method
+            String input = "hello";
+            int rot = 3;
+            if(!Cesar.IsValidString(input)){
+                System.out.println("Please enter a valid password. (only lowercase letters)");
+            } else {
+                String aaa = Cesar.Encrypt(input, rot);
+                System.out.println(aaa);
+            }
 
         } else if(method == 2){
             // Encrypt the user's input with Vigenere method
@@ -84,9 +93,8 @@ public class TerminalMenu {
             // Encrypt the user's input with Polybius method
             String input = "notmatching";
             if(!Polybius.IsValidString(input)) {
-                System.out.println("Veuillez entrer un message valide (uniquement des lettres minuscules)");
-            }
-            else {
+                System.out.println("Please enter a valid password (only lowercase letters)");
+            } else {
                 String aaa = Polybius.Encrypt(input);
                 System.out.println(aaa);
                 String bbb = Polybius.Decrypt(aaa);
