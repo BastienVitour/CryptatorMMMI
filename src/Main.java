@@ -1,7 +1,11 @@
 public class Main {
     public static void main(String[] args) {
 
-        String input = "notmatching";
+        String enigma = Enigma.Encrypt("hello");
+        System.out.println(enigma);
+        System.out.println(Enigma.Decrypt(enigma));
+
+        String input = "not matching";
         if(!Polybius.IsValidString(input)) {
             System.out.println("Veuillez entrer un message valide (uniquement des lettres minuscules)");
         }
@@ -11,7 +15,6 @@ public class Main {
             String bbb = Polybius.Decrypt(aaa);
             System.out.println(bbb);
         }
-
 
     }
 }
