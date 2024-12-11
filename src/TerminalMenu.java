@@ -3,21 +3,22 @@ import java.util.Scanner;
 public class TerminalMenu {
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int choice = 0;
+        Scanner scanner = new Scanner(System.in); // Scanner object to read user input
+        int choice = 0; // Variable to store user's menu choice
 
+        // Infinite loop to keep the menu running until the user exits
         while (true) {
             // Display main menu
             System.out.println("\n=== Main Menu ===");
-            System.out.println("1 - Add a password");
-            System.out.println("2 - Display a password");
-            System.out.println("3 - Hash a password");
-            System.out.println("4 - Help");
+            System.out.println("1 - Add a password"); // Option to add a password
+            System.out.println("2 - Display a password"); // Option to display password
+            System.out.println("3 - Hash a password"); // Option to hash a password
+            System.out.println("4 - Help"); // Help page
             System.out.println("5 - Crypter");
-            System.out.println("0 - Quit");
+            System.out.println("0 - Quit"); // Option to quit the main menu
             System.out.print("\nEnter your choice : ");
 
-            // Read user entry
+            // Try to read and parse the user's choice
             try {
                 choice = Integer.parseInt(scanner.nextLine());
             } catch (NumberFormatException e) {
@@ -25,6 +26,7 @@ public class TerminalMenu {
                 continue;
             }
 
+            // Execute actions based on the user's choice
             switch (choice) {
                 case 1:
                     AddPassword(scanner);
@@ -47,7 +49,7 @@ public class TerminalMenu {
         }
     }
 
-    // Add password method
+    // Method to handle adding a password
     private static void AddPassword(Scanner scanner) {
         System.out.print("\nFor which site ? : ");
         String usage = scanner.nextLine();
@@ -60,24 +62,26 @@ public class TerminalMenu {
         System.out.println("6 - Encryption chain");
         System.out.print("\nEnter the number of the method : ");
 
-        int method = 0;
+        int method = 0; // Variable to store the chosen encryption method
         try {
-            method = Integer.parseInt(scanner.nextLine());
+            method = Integer.parseInt(scanner.nextLine()); // Parse the chosen method as an integer
         } catch (NumberFormatException e) {
             System.out.println("\nPlease enter a valid number.");
             return;
         }
 
+        // Handle different encryption methods based on the user's choice
         if(method == 1) {
 
         } else if(method == 2){
-
+            // Encrypt the user's input with Vigenere method
             String plaintext = Vigenere.EntryChain();
             String key = Vigenere.EntryKey();
             String encrypted = Vigenere.VigenereEncrypt(plaintext, key);
             System.out.println("\nThe encrypted password for site '" + usage + "' is: " + encrypted);
 
         } else if(method == 3){
+            // Encrypt the user's input with Polybius method
             String input = "notmatching";
             if(!Polybius.IsValidString(input)) {
                 System.out.println("Veuillez entrer un message valide (uniquement des lettres minuscules)");
