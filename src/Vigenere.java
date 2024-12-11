@@ -31,7 +31,7 @@ public class Vigenere{
     }
 
     // Method to perform Vigenère decryption using Pi = (Ci - Ki + 26) mod 26
-    private static String VigenereDecrypt(String encryptedText, String key) {
+    public static String VigenereDecrypt(String encryptedText, String key) {
         StringBuilder decrypted = new StringBuilder(); // StringBuilder to build the decrypted string
         int keyLength = key.length();
 
