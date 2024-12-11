@@ -13,6 +13,7 @@ public class TerminalMenu {
             System.out.println("2 - Display a password");
             System.out.println("3 - Hash a password");
             System.out.println("4 - Help");
+            System.out.println("5 - Crypter");
             System.out.println("0 - Quit");
             System.out.print("\nEnter your choice : ");
 
@@ -26,13 +27,15 @@ public class TerminalMenu {
 
             switch (choice) {
                 case 1:
-                    ajouterMdp(scanner);
+                    addPassword(scanner);
                     break;
                 case 2:
                     break;
                 case 3:
                     break;
                 case 4:
+                    break;
+                case 5:
                     break;
                 case 0:
                     System.out.println("\nBye !");
@@ -45,7 +48,7 @@ public class TerminalMenu {
     }
 
     // Add password method
-    private static void ajouterMdp(Scanner scanner) {
+    private static void addPassword(Scanner scanner) {
         System.out.print("\nFor which site ? : ");
         String usage = scanner.nextLine();
         System.out.println("\n=== Choose a crypt method ===");
@@ -65,29 +68,25 @@ public class TerminalMenu {
             return;
         }
 
-        if(method == 2){
-            Vigenere.main(new String[0]);
+        if(method == 1) {
+
+        } else if(method == 2){
+
+            String plaintext = Vigenere.EntryChain();
+            String key = Vigenere.EntryKey();
+            String encrypted = Vigenere.VigenereEncrypt(plaintext, key);
+            System.out.println("\nThe encrypted password for site '" + usage + "' is: " + encrypted);
+
+        } else if(method == 3){
+            Main.main(new String[0]);
+        } else if(method == 4){
+
+        } else if(method == 5){
+
+        } else if(method == 6){
+
         }
 
     }
 
-    // Method to get the name of the encryption method
-    private static String getNomMethode(int methode) {
-        switch (methode) {
-            case 1:
-                return "Cesar";
-            case 2:
-                return "Vigenere";
-            case 3:
-                return "Polybe";
-            case 4:
-                return "Enigma";
-            case 5:
-                return "RC4";
-            case 6:
-                return "Chaine de chiffrement";
-            default:
-                return "Inconnue";
-        }
-    }
 }

@@ -6,11 +6,14 @@ public class Vigenere{
     public static Scanner sc = new Scanner(System.in);
 
     // Private static method to handle user input
-    private static String EntryChain(){
+    public static String EntryChain(){
 
         String ch; // Variable to store the input string
 
         while (true) {
+            System.out.println("");
+            System.out.println("\n=== Vigenere method ===");
+            System.out.println("");
             // Prompting the user to enter a string to be encrypted
             System.out.println("Specify the password to encrypt: ");
             ch = sc.nextLine().replace(" ", ""); // Reading the input and replace spaces by nothing
@@ -27,7 +30,7 @@ public class Vigenere{
     }
 
     // Private static method to handle user input
-    private static String EntryKey(){
+    public static String EntryKey(){
 
         String ch; // Variable to store the input string
 
@@ -56,7 +59,7 @@ public class Vigenere{
     }
 
     // Method to perform Vigenère encryption using Ci = (Pi + Ki) mod 26
-    private static String VigenereEncrypt(String chainText, String key) {
+    public static String VigenereEncrypt(String chainText, String key) {
         StringBuilder encrypted = new StringBuilder(); // StringBuilder to build the encrypted string
         int keyLength = key.length();
 
@@ -65,7 +68,7 @@ public class Vigenere{
             int plainCharIndex = chainText.charAt(i) - 'a'; // Alphabetic index for the plaintext character
             int keyCharIndex = key.charAt(i % keyLength) - 'a'; // Alphabetic index for the key character
 
-            // Apply the Vigenère formula Ci = (Pi + Ki) mod 26
+            // Apply the Vigenere formula Ci = (Pi + Ki) mod 26
             int encryptedCharIndex = (plainCharIndex + keyCharIndex) % 26;
 
             // Convert the index back to a character
@@ -97,6 +100,7 @@ public class Vigenere{
         return decrypted.toString(); // Return the decrypted string
     }
 
+    /*
     // Main method - entry point of the program
     public static void main(String[] args){
 
@@ -119,6 +123,6 @@ public class Vigenere{
         // Displaying the decrypted password
         System.out.println("The decrypted password: " + decrypted);
 
-    }
+    }*/
 
 }
