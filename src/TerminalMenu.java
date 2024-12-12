@@ -152,19 +152,25 @@ public class TerminalMenu {
 
         // Handle different hash methods based on the user's choice
         String password = getInput(scanner, "Enter the password to hash: ");
+        String hashPassword;
         switch (method) {
             case 1:
-                String hashedMD5 = Hash.hashMD5(password); // Call the MD5 hashing method
-                System.out.println("Hashed password (MD5): " + hashedMD5);
+                hashPassword = Hash.hashMD5(password); // Call the MD5 hashing method
+                PasswordManager.RegisterPassword(usage, hashPassword, "Hash MD5", password);
+                System.out.println("Hashed password (MD5): " + hashPassword);
                 break;
             case 2:
-                String hashedSHA256 = Hash.hashSHA256(password); // Call the SHA-256 hashing method
-                System.out.println("Hashed password (SHA-256): " + hashedSHA256);
+                hashPassword = Hash.hashSHA256(password); // Call the SHA-256 hashing method
+                PasswordManager.RegisterPassword(usage, hashPassword, "Hash SHA-256", password);
+                System.out.println("Hashed password (SHA-256): " + hashPassword);
                 break;
             case 3:
+                String salt = getInput(scanner, "Enter the salt for HMAC: ");
+                String pepper= getInput(scanner, "Enter the pepper for HMAC: ");
                 String secretKey = getInput(scanner, "Enter the secret key for HMAC: ");
-                String hmacHash = HMAC.generateHash(password, "", "", secretKey); // Generate HMAC
-                System.out.println("Generated HMAC (Hex): " + hmacHash);
+                hashPassword = HMAC.generateHash(password, salt, pepper, secretKey); // Generate HMAC
+                PasswordManager.RegisterPassword(usage, hashPassword, "HMAC", "");
+                System.out.println("Generated HMAC (Hex): " + hashPassword);
                 break;
             default:
                 System.out.println("Invalid method. Please choose 1 or 2.");
