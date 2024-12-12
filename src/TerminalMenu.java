@@ -1,9 +1,15 @@
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import java.io.File;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
 
 public class TerminalMenu {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
         Scanner scanner = new Scanner(System.in); // Scanner object to read user input
         int choice = 0; // Variable to store user's menu choice
 
@@ -53,7 +59,7 @@ public class TerminalMenu {
     }
 
     // Method to handle adding a password
-    private static void AddPassword(Scanner scanner) {
+    private static void AddPassword(Scanner scanner) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
         System.out.print("\nFor which site ? : ");
         String usage = scanner.nextLine();
         System.out.println("\n=== Choose a crypt method ===");
@@ -62,7 +68,8 @@ public class TerminalMenu {
         System.out.println("3 - Polybe");
         System.out.println("4 - Enigma");
         System.out.println("5 - RC4");
-        System.out.println("6 - Encryption chain");
+        System.out.println("6 - AES");
+        System.out.println("7 - Encryption chain");
         System.out.println("0 - Go to main menu");
         System.out.print("\nEnter the number of the method : ");
 
@@ -124,7 +131,12 @@ public class TerminalMenu {
             case 5:
 
             case 6:
-
+                // Encrypt the user's input with AES method
+                String aesInput = AskForPassword(scanner, "AES", usage);
+                AESData data = AES.Encrypt(aesInput);
+                PasswordManager.RegisterPassword(usage, data.getEncryptedText(), "AES", data.getSecretKey() + "-" + data.getIv());
+                System.out.println("Encrypted password: " + AES.Encrypt(aesInput));
+                break;
         }
 
     }
