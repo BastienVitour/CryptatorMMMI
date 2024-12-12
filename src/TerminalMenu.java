@@ -14,8 +14,9 @@ public class TerminalMenu {
             System.out.println("1 - Add a password"); // Option to add a password
             System.out.println("2 - Display a password"); // Option to display password
             System.out.println("3 - Hash a password"); // Option to hash a password
-            System.out.println("4 - Help"); // Help page
-            System.out.println("5 - Crypter");
+            System.out.println("4 - Verify a hash");
+            System.out.println("5 - Help"); // Help page
+            System.out.println("6 - Crypter");
             System.out.println("0 - Quit"); // Option to quit the main menu
             System.out.print("\nEnter your choice : ");
 
@@ -75,6 +76,7 @@ public class TerminalMenu {
         }
 
         File outputFile = new File("./Passwords/password.txt");
+        System.out.println(outputFile.exists());
         if(!outputFile.exists()) {
             FileManager.CreateFile("./Passwords/password.txt");
         }
@@ -136,6 +138,7 @@ public class TerminalMenu {
         System.out.println("\n=== Choose a hash method ===");
         System.out.println("1 - MD5");
         System.out.println("2 - SHA-256");
+        System.out.println("3 - HMAC (with a secret key)");
         System.out.println("0 - Go to main menu");
         System.out.print("\nEnter the number of the method : ");
 
@@ -157,6 +160,11 @@ public class TerminalMenu {
             case 2:
                 String hashedSHA256 = Hash.hashSHA256(password); // Call the SHA-256 hashing method
                 System.out.println("Hashed password (SHA-256): " + hashedSHA256);
+                break;
+            case 3:
+                String secretKey = getInput(scanner, "Enter the secret key for HMAC: ");
+                String hmacHash = HMAC.generateHash(password, "", "", secretKey); // Generate HMAC
+                System.out.println("Generated HMAC (Hex): " + hmacHash);
                 break;
             default:
                 System.out.println("Invalid method. Please choose 1 or 2.");
