@@ -85,7 +85,7 @@ public class TerminalMenu {
         switch(method) {
             case 1:
                 // Encrypt the user's input with Cesar method
-                String cesarInput = getInput(scanner, "Enter the password to encrypt with Cesar encryption method : ");
+                String cesarInput = AskForPassword(scanner, "Cesar", usage);
                 int rotation = getIntInput(scanner, "Enter the rotation value: ");
                 if (!Cesar.IsValidString(cesarInput)) {
                     System.out.println("Please enter a valid password.");
@@ -97,15 +97,15 @@ public class TerminalMenu {
                 break;
             case 2:
                 // Encrypt the user's input with Vigenere method
-                String plaintext = getInput(scanner, "Enter the password to encrypt with Vigenere encryption method: ");
+                String vigenereInput = AskForPassword(scanner, "Vigenere", usage);
                 String key = getInput(scanner, "Enter the key to encrypt with Vigenere method: ");
-                encryptedPassword = Vigenere.VigenereEncrypt(plaintext, key);
+                encryptedPassword = Vigenere.VigenereEncrypt(vigenereInput, key);
                 PasswordManager.RegisterPassword(usage, encryptedPassword, "Vigenere", key);
-                System.out.println("Encrypted password: " + Vigenere.VigenereEncrypt(plaintext, key));
+                System.out.println("Encrypted password: " + Vigenere.VigenereEncrypt(vigenereInput, key));
                 break;
             case 3:
                 // Encrypt the user's input with Polybius method
-                String polybiusInput = getInput(scanner, "Enter the password for Polybius encryption method: ");
+                String polybiusInput = AskForPassword(scanner, "Polybius", usage);
                 if (!Polybius.IsValidString(polybiusInput)) {
                     System.out.println("Please enter a valid password (only lowercase letters).");
                 } else {
@@ -116,7 +116,7 @@ public class TerminalMenu {
                 break;
             case 4:
                 // Encrypt the user's input with Enigma method
-                String enigmaInput = getInput(scanner, "Enter the password for Enigma encryption method: ");
+                String enigmaInput = AskForPassword(scanner, "Enigma", usage);
                 encryptedPassword = Enigma.Encrypt(enigmaInput);
                 PasswordManager.RegisterPassword(usage, encryptedPassword, "Enigma", "");
                 System.out.println("Encrypted password: " + Enigma.Encrypt(enigmaInput));
@@ -193,6 +193,21 @@ public class TerminalMenu {
                 System.out.println("Invalid input. Please enter a valid number."); // Handle invalid input
             }
         }
+    }
+
+    private static String AskForPassword(Scanner scanner, String method, String usage) {
+        System.out.println("Do you prefer ?");
+        System.out.println("1 - Typing your own password");
+        int passwordMethod = getIntInput(scanner, "2 - Generate a random password\n");
+        String passwordInput;
+        if(passwordMethod == 1) {
+            passwordInput = getInput(scanner, "Enter the password to encrypt with " + method + " encryption method : ");
+        }
+        else {
+            passwordInput = LFSR.RandomLowercaseTextString(usage + method, 8);
+            System.out.println("Your password is " + passwordInput);
+        }
+        return passwordInput;
     }
 
 }
