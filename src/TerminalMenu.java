@@ -20,8 +20,9 @@ public class TerminalMenu {
             System.out.println("1 - Add a password"); // Option to add a password
             System.out.println("2 - Display a password"); // Option to display password
             System.out.println("3 - Hash a password"); // Option to hash a password
-            System.out.println("4 - Help"); // Help page
-            System.out.println("5 - Crypter");
+            System.out.println("4 - Verify a hash");
+            System.out.println("5 - Help"); // Help page
+            System.out.println("6 - Crypter");
             System.out.println("0 - Quit"); // Option to quit the main menu
             System.out.print("\nEnter your choice : ");
 
@@ -82,6 +83,7 @@ public class TerminalMenu {
         }
 
         File outputFile = new File("./Passwords/password.txt");
+        System.out.println(outputFile.exists());
         if(!outputFile.exists()) {
             FileManager.CreateFile("./Passwords/password.txt");
         }
@@ -148,6 +150,7 @@ public class TerminalMenu {
         System.out.println("\n=== Choose a hash method ===");
         System.out.println("1 - MD5");
         System.out.println("2 - SHA-256");
+        System.out.println("3 - HMAC (with a secret key)");
         System.out.println("0 - Go to main menu");
         System.out.print("\nEnter the number of the method : ");
 
@@ -161,14 +164,25 @@ public class TerminalMenu {
 
         // Handle different hash methods based on the user's choice
         String password = getInput(scanner, "Enter the password to hash: ");
+        String hashPassword;
         switch (method) {
             case 1:
-                String hashedMD5 = Hash.hashMD5(password); // Call the MD5 hashing method
-                System.out.println("Hashed password (MD5): " + hashedMD5);
+                hashPassword = Hash.hashMD5(password); // Call the MD5 hashing method
+                PasswordManager.RegisterPassword(usage, hashPassword, "Hash MD5", password);
+                System.out.println("Hashed password (MD5): " + hashPassword);
                 break;
             case 2:
-                String hashedSHA256 = Hash.hashSHA256(password); // Call the SHA-256 hashing method
-                System.out.println("Hashed password (SHA-256): " + hashedSHA256);
+                hashPassword = Hash.hashSHA256(password); // Call the SHA-256 hashing method
+                PasswordManager.RegisterPassword(usage, hashPassword, "Hash SHA-256", password);
+                System.out.println("Hashed password (SHA-256): " + hashPassword);
+                break;
+            case 3:
+                String salt = getInput(scanner, "Enter the salt for HMAC: ");
+                String pepper= getInput(scanner, "Enter the pepper for HMAC: ");
+                String secretKey = getInput(scanner, "Enter the secret key for HMAC: ");
+                hashPassword = HMAC.generateHash(password, salt, pepper, secretKey); // Generate HMAC
+                PasswordManager.RegisterPassword(usage, hashPassword, "HMAC", "");
+                System.out.println("Generated HMAC (Hex): " + hashPassword);
                 break;
             default:
                 System.out.println("Invalid method. Please choose 1 or 2.");
