@@ -16,6 +16,9 @@ public class TerminalMenu {
         Scanner scanner = new Scanner(System.in); // Scanner object to read user input
         int choice = 0; // Variable to store user's menu choice
 
+        //Steganography.Encrypt("the super hidden text", "images/grass2.jpeg", "images/outputgrass2.png");
+        //System.out.println(Steganography.Decrypt("images/outputgrass2.png"));
+
         // Infinite loop to keep the menu running until the user exits
         while (true) {
             // Display main menu
@@ -65,7 +68,7 @@ public class TerminalMenu {
                     scanner.close();
                     return;
                 default:
-                    System.out.println("\nInvalid option. Choose one between 0 and 4.");
+                    System.out.println("\nInvalid option. Choose one between 0 and 6.");
             }
         }
     }
