@@ -83,7 +83,6 @@ public class TerminalMenu {
         }
 
         File outputFile = new File("./Passwords/password.txt");
-        System.out.println(outputFile.exists());
         if(!outputFile.exists()) {
             FileManager.CreateFile("./Passwords/password.txt");
         }
