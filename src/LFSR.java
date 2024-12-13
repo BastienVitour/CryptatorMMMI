@@ -21,7 +21,7 @@ public class LFSR {
 
         StringBuilder result = new StringBuilder();
         for (int number : generatedNumbers) {
-            int asciiCompatibleNumber = (number + 96) % 26 + 96;
+            int asciiCompatibleNumber = (number + 97) % 26 + 97;
             result.append((char) asciiCompatibleNumber);
 
         }
