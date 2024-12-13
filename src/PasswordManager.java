@@ -121,9 +121,9 @@ public class PasswordManager {
                                     returnedPassword = Rc4.Decrypt(returnedPassword, reverseKey[i]);
                                     break;
                                 case "AES":
-                                    String secretKeyParam = secretKey.split("-")[0];
-                                    String ivParam = secretKey.split("-")[1];
-                                    returnedPassword = AES.Decrypt(password, secretKeyParam, ivParam);
+                                    String secretKeyParam = reverseKey[i].split("-")[0];
+                                    String ivParam = reverseKey[i].split("-")[1];
+                                    returnedPassword = AES.Decrypt(returnedPassword, secretKeyParam, ivParam);
                                     break;
                                 default:
                                     break;
