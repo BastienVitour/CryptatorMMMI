@@ -187,12 +187,12 @@ public class TerminalMenu {
         switch (method) {
             case 1:
                 hashPassword = Hash.hashMD5(password); // Call the MD5 hashing method
-                PasswordManager.RegisterPassword(usage, hashPassword, "Hash MD5", password);
+                PasswordManager.RegisterPassword(usage, hashPassword, "MD5", password);
                 System.out.println("Hashed password (MD5): " + hashPassword);
                 break;
             case 2:
                 hashPassword = Hash.hashSHA256(password); // Call the SHA-256 hashing method
-                PasswordManager.RegisterPassword(usage, hashPassword, "Hash SHA-256", password);
+                PasswordManager.RegisterPassword(usage, hashPassword, "SHA-256", password);
                 System.out.println("Hashed password (SHA-256): " + hashPassword);
                 break;
             case 3:
