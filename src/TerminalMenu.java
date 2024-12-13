@@ -2,6 +2,9 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -9,7 +12,7 @@ import java.util.Scanner;
 
 public class TerminalMenu {
 
-    public static void main(String[] args) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
+    public static void main(String[] args) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException, IOException {
         Scanner scanner = new Scanner(System.in); // Scanner object to read user input
         int choice = 0; // Variable to store user's menu choice
 
@@ -22,7 +25,7 @@ public class TerminalMenu {
             System.out.println("3 - Hash a password"); // Option to hash a password
             System.out.println("4 - Verify a hash");
             System.out.println("5 - Help"); // Help page
-            System.out.println("6 - Crypter");
+            System.out.println("6 - Crypter un mot de passe");
             System.out.println("0 - Quit"); // Option to quit the main menu
             System.out.print("\nEnter your choice : ");
 
@@ -48,7 +51,15 @@ public class TerminalMenu {
                 case 4:
                     break;
                 case 5:
+                    DisplayHelp(scanner);
                     break;
+                case 6:
+                    System.out.println("\nGTFO");
+                    scanner.close();
+                    System.out.println("\u001B[31m");
+                    System.out.println("Process finished with exit code user is a dumbass");
+                    System.out.println("\u001B[0m");
+                    return;
                 case 0:
                     System.out.println("\nBye !");
                     scanner.close();
@@ -60,7 +71,7 @@ public class TerminalMenu {
     }
 
     // Method to handle adding a password
-    private static void AddPassword(Scanner scanner) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
+    private static void AddPassword(Scanner scanner) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException, IOException {
         System.out.print("\nFor which site ? : ");
         String usage = scanner.nextLine();
         System.out.println("\n=== Choose a crypt method ===");
@@ -84,6 +95,7 @@ public class TerminalMenu {
 
         File outputFile = new File("./Passwords/password.txt");
         if(!outputFile.exists()) {
+            Files.createDirectory(Paths.get(System.getProperty("user.dir") + "/Passwords"));
             FileManager.CreateFile("./Passwords/password.txt");
         }
 
@@ -238,6 +250,20 @@ public class TerminalMenu {
             System.out.println("Your password is " + passwordInput);
         }
         return passwordInput;
+    }
+
+    private static void DisplayHelp(Scanner scanner) {
+        System.out.println("Choose an encryption method to learn about:");
+        System.out.println("1. ROT(X) Encryption");
+        System.out.println("2. Vigenère Encryption");
+        System.out.println("3. Polybius Encryption");
+        System.out.println("4. Enigma Encryption");
+        System.out.println("5. RC4 Encryption");
+        System.out.println("6. AES Encryption");
+
+        int choice = getIntInput(scanner, "Enter your choice (1-6): ");
+        Help.DisplayHelp(choice);
+
     }
 
     // Method to handle encryption with encryption chain
