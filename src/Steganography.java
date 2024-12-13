@@ -10,8 +10,16 @@ public class Steganography {
     private final static String startString = "StartText";
     private final static String stopString = "StopText";
 
+    /**
+     * Hides a text inside an image
+     * @param text The text to hide
+     * @param sourcePath The path to the source image
+     * @param outputPath The path to the output image with the hidden message
+     * @throws IOException
+     */
     public static void Encrypt(String text, String sourcePath, String outputPath) throws IOException {
 
+        // Read the image
         BufferedImage image = ImageIO.read(new File(sourcePath));
 
         WritableRaster raster = image.getRaster();
@@ -23,6 +31,7 @@ public class Steganography {
         int stopIndex = 0;
         int messageIndex = 0;
 
+        // Iterate over each pixel of the image
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 int[] pixel = raster.getPixel(x, y, (int[]) null);
@@ -32,14 +41,17 @@ public class Steganography {
                 int blue = pixel[2];
 
                 if(startIndex < startString.length()) {
+                    // Edit start point pixels
                     red = startString.charAt(startIndex);
                     startIndex++;
                 }
                 else if(messageIndex < text.length()) {
+                    // Edit message pixels
                     green = text.charAt(messageIndex);
                     messageIndex++;
                 }
                 else if(stopIndex < stopString.length()) {
+                    // Edit stop point pixels
                     blue = stopString.charAt(stopIndex);
                     stopIndex++;
                 }
@@ -49,18 +61,27 @@ public class Steganography {
                 pixel[1] = green; // Green remains the same
                 pixel[2] = blue;  // Modified blue
 
+                // Set new pixel
                 raster.setPixel(x, y, pixel);
                 index++;
             }
         }
 
+        // Output the new image
         File outputFile = new File(outputPath);
         ImageIO.write(image, "png", outputFile);
 
     }
 
+    /**
+     * Retrieves the hidden text in an image
+     * @param imagePath The path to the source image
+     * @return The hidden text
+     * @throws IOException
+     */
     public static String Decrypt(String imagePath) throws IOException {
 
+        // Read the image
         BufferedImage image = ImageIO.read(new File(imagePath));
 
         Raster raster = image.getRaster();
@@ -75,6 +96,7 @@ public class Steganography {
         int[] bluePixels = new int[height * width];
         int blueIndex = 0;
 
+        // Retrieve all blue pixels (stop indicator)
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 int[] pixel = raster.getPixel(x, y, (int[]) null);
@@ -83,24 +105,30 @@ public class Steganography {
             }
         }
 
+        // Get the start index before the message
         startIndex = startString.length();
 
+        // Get the stop index after the message
         stopIndex = FindStopIndex(bluePixels);
 
+        // If no stop index was found it means there is no message in this image
         if(stopIndex == -1) {
             return "Stop index not found";
         }
 
         byte[] messageBytes = new byte[stopIndex - startIndex];
 
+        // Iterate over every pixel of the image
         outerloop:
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
 
+                // Skip start message
                 if(index < startIndex) {
                     index++;
                     continue;
                 }
+                // Stop when stop message is reached
                 if(index == stopIndex) {
                     break outerloop;
                 }
@@ -111,6 +139,7 @@ public class Steganography {
                 int green = pixel[1];
                 int blue = pixel[2];
 
+                // Get message information
                 messageBytes[messageIndex] = (byte) green;
 
                 messageIndex++;
@@ -122,6 +151,11 @@ public class Steganography {
 
     }
 
+    /**
+     * Find the index of the stop message in the image
+     * @param values The values of the blue in the image
+     * @return
+     */
     public static int FindStopIndex(int[] values) {
 
         byte[] targetValues = stopString.getBytes();
