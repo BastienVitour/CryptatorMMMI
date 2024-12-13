@@ -1,12 +1,14 @@
+import java.util.Arrays;
+
 public class Rc4 {
-    private final int[] S = new int[256];
-    private final int[] T = new int[256];
+    private static final int[] S = new int[256];
+    private static final int[] T = new int[256];
 
     /**
      * Creation of an initialise function
      * @param key The message to encrypt
      */
-    public void initialise(String key) {
+    public static void Initialise(String key) {
         byte[] keyByte = key.getBytes();
         /* We verify if the key byte is between 1 and 256 */
         if (keyByte.length < 1 || keyByte.length > 256) {
@@ -37,8 +39,8 @@ public class Rc4 {
      * @param key The key to encrypt
      * @return returns the message encrypted as a string of the decimal value
      */
-    public String encrypt(String plainText, String key) {
-        initialise(key);
+    public static String Encrypt(String plainText, String key) {
+        Initialise(key);
         byte[] plain = plainText.getBytes();
         int[] cipherText = new int[plainText.length()];
         int i = 0;
@@ -71,7 +73,7 @@ public class Rc4 {
      * @param key The key to encrypt
      * @return returns the message decrypted as a string of the decimal value
      */
-    public String decrypt(String encryptedText, String key) {
+    public static String Decrypt(String encryptedText, String key) {
         /* I change the start value from a string to an int table*/
         String[] stringNumbers = encryptedText.split(" ");
         int[] cipherText = new int[stringNumbers.length];
@@ -79,7 +81,7 @@ public class Rc4 {
             cipherText[i] = Integer.parseInt(stringNumbers[i]);
         }
         /* On utilise le même processus que pour le chiffrement */
-        initialise(key);
+        Initialise(key);
         int[] plainText = new int[cipherText.length];
         int i = 0;
         int j = 0;
@@ -97,7 +99,7 @@ public class Rc4 {
         }
         StringBuilder result = new StringBuilder();
         for (int value : plainText) {
-            result.append(value).append(" ");
+            result.append((char) value);
         }
         return result.toString();
     }

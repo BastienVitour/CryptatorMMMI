@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.Objects;
@@ -66,26 +67,70 @@ public class PasswordManager {
                         secretKey = new String(Base64.getDecoder().decode(encodedSecretKey.getBytes()));
                     }
 
-                    switch (method) {
-                        case "Cesar":
-                            returnedPassword = Cesar.Decrypt(password, Integer.parseInt(secretKey));
-                            break;
-                        case "Vigenere":
-                            returnedPassword = Vigenere.VigenereDecrypt(password, secretKey);
-                            break;
-                        case "Polybius":
-                            returnedPassword = Polybius.Decrypt(password);
-                            break;
-                        case "Enigma":
-                            returnedPassword = Enigma.Decrypt(password);
-                            break;
-                        case "AES":
-                            String secretKeyParam = secretKey.split("-")[0];
-                            String ivParam = secretKey.split("-")[1];
-                            returnedPassword = AES.Decrypt(password, secretKeyParam, ivParam);
-                        default:
-                            break;
+                    // Verify if it's a chain or not
+                    String[] methodlenght = method.split(" ");
+                    String[] key = secretKey.split(" ");
+                    if (methodlenght.length == 1) {
+                        switch (method) {
+                            case "Cesar":
+                                returnedPassword = Cesar.Decrypt(password, Integer.parseInt(secretKey));
+                                break;
+                            case "Vigenere":
+                                returnedPassword = Vigenere.VigenereDecrypt(password, secretKey);
+                                break;
+                            case "Polybius":
+                                returnedPassword = Polybius.Decrypt(password);
+                                break;
+                            case "Enigma":
+                                returnedPassword = Enigma.Decrypt(password);
+                            case "Rc4":
+                                returnedPassword = Rc4.Decrypt(password, secretKey);
+                            case "AES":
+                                String secretKeyParam = secretKey.split("-")[0];
+                                String ivParam = secretKey.split("-")[1];
+                                returnedPassword = AES.Decrypt(password, secretKeyParam, ivParam);
+                                break;
+                            default:
+                                break;
+                        }
                     }
+                    else {
+                        // Reverse the method and key string to have it in the right order
+                        String[] reverseMethod = new String[methodlenght.length];
+                        String[] reverseKey = new String[key.length];
+                        returnedPassword = password;
+                        for (int i = 0; i < methodlenght.length; i++) {
+                            reverseMethod[i] = methodlenght[methodlenght.length-i-1];
+                            reverseKey[i] = key[methodlenght.length-i-1];
+                        }
+                        for (int i = 0; i < reverseMethod.length; i++) {
+                            switch (reverseMethod[i]) {
+                                case "Cesar":
+                                    returnedPassword = Cesar.Decrypt(returnedPassword, Integer.parseInt(reverseKey[i]));
+                                    break;
+                                case "Vigenere":
+                                    returnedPassword = Vigenere.VigenereDecrypt(returnedPassword, reverseKey[i]);
+                                    break;
+                                case "Polybius":
+                                    returnedPassword = Polybius.Decrypt(returnedPassword);
+                                    break;
+                                case "Enigma":
+                                    returnedPassword = Enigma.Decrypt(returnedPassword);
+                                    break;
+                                case "Rc4":
+                                    returnedPassword = Rc4.Decrypt(returnedPassword, reverseKey[i]);
+                                    break;
+                                case "AES":
+                                    String secretKeyParam = reverseKey[i].split("-")[0];
+                                    String ivParam = reverseKey[i].split("-")[1];
+                                    returnedPassword = AES.Decrypt(returnedPassword, secretKeyParam, ivParam);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+
                 }
             }
 
