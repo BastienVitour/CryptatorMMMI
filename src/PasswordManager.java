@@ -83,8 +83,10 @@ public class PasswordManager {
                                 break;
                             case "Enigma":
                                 returnedPassword = Enigma.Decrypt(password);
+                                break;
                             case "Rc4":
                                 returnedPassword = Rc4.Decrypt(password, secretKey);
+                                break;
                             case "AES":
                                 String secretKeyParam = secretKey.split("-")[0];
                                 String ivParam = secretKey.split("-")[1];
