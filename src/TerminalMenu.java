@@ -242,7 +242,7 @@ public class TerminalMenu {
     }
 
     // Method to handle encryption with encryption chain
-    public static void EncriptionChain(Scanner scanner, String usage) {
+    public static void EncriptionChain(Scanner scanner, String usage) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
         System.out.println("\n=== Choose a crypt method ===");
         System.out.println("1 - Cesar");
         System.out.println("2 - Vigenere");
@@ -319,7 +319,13 @@ public class TerminalMenu {
                     encryptedPassword = Rc4.Encrypt(encryptedPassword,keyRc4);
                     key.append(keyRc4).append(" ");
                     methodString.append("Rc4").append(" ");
-                    key.append(".").append(" ");
+                    break;
+                case 6:
+                    // Encrypt the user's input with AES method
+                    AESData data = AES.Encrypt(encryptedPassword);
+                    encryptedPassword = data.getEncryptedText();
+                    methodString.append("AES").append(" ");
+                    key.append(data.getSecretKey()).append("-").append(data.getIv()).append(" ");
                     break;
             }
         }
