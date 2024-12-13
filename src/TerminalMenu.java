@@ -62,7 +62,8 @@ public class TerminalMenu {
         System.out.println("3 - Polybe");
         System.out.println("4 - Enigma");
         System.out.println("5 - RC4");
-        System.out.println("6 - Encryption chain");
+        System.out.println("6 - AES");
+        System.out.println("7 - Encryption chain");
         System.out.println("0 - Go to main menu");
         System.out.print("\nEnter the number of the method : ");
 
@@ -92,7 +93,6 @@ public class TerminalMenu {
                 } else {
                     encryptedPassword = Cesar.Encrypt(cesarInput, rotation);
                     PasswordManager.RegisterPassword(usage, encryptedPassword, "Cesar", String.valueOf(rotation));
-                    System.out.println("Encrypted password: " + Cesar.Encrypt(cesarInput, rotation));
                 }
                 break;
             case 2:
@@ -101,7 +101,6 @@ public class TerminalMenu {
                 String key = getInput(scanner, "Enter the key to encrypt with Vigenere method: ");
                 encryptedPassword = Vigenere.VigenereEncrypt(vigenereInput, key);
                 PasswordManager.RegisterPassword(usage, encryptedPassword, "Vigenere", key);
-                System.out.println("Encrypted password: " + Vigenere.VigenereEncrypt(vigenereInput, key));
                 break;
             case 3:
                 // Encrypt the user's input with Polybius method
@@ -111,7 +110,6 @@ public class TerminalMenu {
                 } else {
                     encryptedPassword = Polybius.Encrypt(polybiusInput);
                     PasswordManager.RegisterPassword(usage, encryptedPassword, "Polybius", "");
-                    System.out.println("Encrypted password: " + Polybius.Encrypt(polybiusInput));
                 }
                 break;
             case 4:
@@ -119,12 +117,19 @@ public class TerminalMenu {
                 String enigmaInput = AskForPassword(scanner, "Enigma", usage);
                 encryptedPassword = Enigma.Encrypt(enigmaInput);
                 PasswordManager.RegisterPassword(usage, encryptedPassword, "Enigma", "");
-                System.out.println("Encrypted password: " + Enigma.Encrypt(enigmaInput));
                 break;
             case 5:
-
+                // Encrypt the user's input with Rc4 method
+                String rc4Input = AskForPassword(scanner, "RC4", usage);
+                String keyRc4 = getInput(scanner, "Enter a key: ");
+                encryptedPassword = Rc4.Encrypt(rc4Input,keyRc4);
+                PasswordManager.RegisterPassword(usage, encryptedPassword, "Rc4", keyRc4);
+                break;
             case 6:
 
+            case 7:
+                EncriptionChain(scanner, usage);
+                break;
         }
 
     }
@@ -208,6 +213,92 @@ public class TerminalMenu {
             System.out.println("Your password is " + passwordInput);
         }
         return passwordInput;
+    }
+
+    // Method to handle encryption with encryption chain
+    public static void EncriptionChain(Scanner scanner, String usage) {
+        System.out.println("\n=== Choose a crypt method ===");
+        System.out.println("1 - Cesar");
+        System.out.println("2 - Vigenere");
+        System.out.println("3 - Polybe");
+        System.out.println("4 - Enigma");
+        System.out.println("5 - RC4");
+        System.out.println("6 - AES");
+        System.out.println("0 - Finish");
+        System.out.print("\nChoose a method: ");
+
+        int[] method = new int[6]; // Variable to store the chosen encryption method
+        for (int i = 0; i < method.length; i++) {
+            method[i] = Integer.parseInt(scanner.nextLine()); // Parse the chosen method as an integer
+            // Verify the method chosed and let the user choose another one or not
+            if (method[i] == 0 || method[i] == 3 || method[i] == 5 || method[i] == 6 ) {
+                break;
+            }
+            else {
+                System.out.print("\nChoose another one: ");
+            }
+        }
+
+        File outputFile = new File("./Passwords/password.txt");
+        if(!outputFile.exists()) {
+            FileManager.CreateFile("./Passwords/password.txt");
+        }
+        String encryptedPassword = "";
+        StringBuilder key = new StringBuilder();
+        StringBuilder methodString = new StringBuilder();
+
+        // Handle different encryption methods based on the user's choice
+        for (int i = 0; i < method.length; i++) {
+            if (i == 0) {
+                encryptedPassword = AskForPassword(scanner, "EncryptionChain", usage);
+            }
+            switch (method[i]) {
+                case 1:
+                    // Encrypt the user's input with Cesar method
+                    int rotation = getIntInput(scanner, "Enter the rotation value: ");
+                    if (!Cesar.IsValidString(encryptedPassword)) {
+                        System.out.println("Please enter a valid password.");
+                    } else {
+                        encryptedPassword = Cesar.Encrypt(encryptedPassword, rotation);
+                        key.append(rotation).append(" ");
+                        methodString.append("Cesar").append(" ");
+                    }
+                    break;
+                case 2:
+                    // Encrypt the user's input with Vigenere method
+                    String keyVigenere = getInput(scanner, "Enter the key to encrypt with Vigenere method: ");
+                    encryptedPassword = Vigenere.VigenereEncrypt(encryptedPassword, keyVigenere);
+                    key.append(keyVigenere).append(" ");
+                    methodString.append("Vigenere").append(" ");
+                    break;
+                case 3:
+                    // Encrypt the user's input with Polybius method
+                    if (!Polybius.IsValidString(encryptedPassword)) {
+                        System.out.println("Please enter a valid password (only lowercase letters).");
+                    } else {
+                        encryptedPassword = Polybius.Encrypt(encryptedPassword);
+                        methodString.append("Polybius").append(" ");
+                        key.append(".").append(" ");
+                    }
+                    break;
+                case 4:
+                    // Encrypt the user's input with Enigma method
+                    encryptedPassword = Enigma.Encrypt(encryptedPassword);
+                    methodString.append("Enigma").append(" ");
+                    key.append(".").append(" ");
+                    break;
+                case 5:
+                    // Encrypt the user's input with Rc4 method
+                    String keyRc4 = getInput(scanner, "Enter a key: ");
+                    encryptedPassword = Rc4.Encrypt(encryptedPassword,keyRc4);
+                    key.append(keyRc4).append(" ");
+                    methodString.append("Rc4").append(" ");
+                    key.append(".").append(" ");
+                    break;
+            }
+        }
+
+        PasswordManager.RegisterPassword(usage, encryptedPassword, methodString.toString(), key.toString());
     }
 
 }
